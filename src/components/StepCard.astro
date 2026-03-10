@@ -1,0 +1,15 @@
+---
+interface Props {
+  step: number;
+  title: string;
+  text: string;
+}
+
+const { step, title, text } = Astro.props;
+---
+
+<article class="step-card">
+  <span class="step-index">{step}</span>
+  <h3>{title}</h3>
+  <p>{text}</p>
+</article>

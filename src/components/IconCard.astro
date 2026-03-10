@@ -1,0 +1,44 @@
+---
+interface Props {
+  icon: string;
+  title: string;
+  text: string;
+  variant?: "default" | "soft";
+}
+
+const { icon, title, text, variant = "default" } = Astro.props;
+
+const icons: Record<string, string> = {
+  bot: `<rect x="7" y="7" width="18" height="14" rx="4"></rect><circle cx="12" cy="14" r="1.6"></circle><circle cx="20" cy="14" r="1.6"></circle><path d="M13 20h6"></path><path d="M16 7V4"></path>`,
+  fake: `<path d="M8 23h16"></path><circle cx="16" cy="11" r="4.2"></circle><path d="M9.5 23a6.5 6.5 0 0 1 13 0"></path><path d="M7 7l18 18"></path>`,
+  takeover: `<rect x="5" y="11" width="22" height="14" rx="3"></rect><path d="M10 11V9a6 6 0 0 1 12 0v2"></path><circle cx="16" cy="18" r="1.7"></circle>`,
+  fraud: `<path d="M16 4l10 4v7.8c0 5.6-4.1 9.2-10 12.2-5.9-3-10-6.6-10-12.2V8z"></path><path d="M12 16l2.6 2.6L20 13"></path>`,
+  user: `<circle cx="16" cy="10.5" r="4.5"></circle><path d="M8.5 24a7.5 7.5 0 0 1 15 0"></path>`,
+  shield: `<path d="M16 4l9 4v7c0 5-3.4 8.2-9 11.2-5.6-3-9-6.2-9-11.2V8z"></path><path d="M12 16l2.4 2.4L19 14"></path>`,
+  biometric: `<path d="M8 10c0-3.8 3.2-7 8-7s8 3.2 8 7"></path><path d="M6 14c0 5.5 4.5 10 10 10"></path><path d="M10 11v10"></path><path d="M14 9v14"></path><path d="M18 9v14"></path><path d="M22 12v8"></path>`,
+  ticket: `<rect x="5" y="9" width="22" height="14" rx="3"></rect><path d="M12 9v14"></path><circle cx="12" cy="13" r="1"></circle><circle cx="12" cy="19" r="1"></circle>`,
+  market: `<path d="M4 13h24"></path><path d="M7 13l2 13h14l2-13"></path><path d="M8 13l2-7h12l2 7"></path>`,
+  wallet: `<rect x="4" y="9" width="24" height="15" rx="3"></rect><path d="M18 16h9"></path><circle cx="21.5" cy="16" r="1"></circle>`,
+  bank: `<path d="M4 12l12-7 12 7"></path><path d="M6 12h20"></path><path d="M8 12v11"></path><path d="M14 12v11"></path><path d="M20 12v11"></path><path d="M26 12v11"></path><path d="M5 23h22"></path>`,
+  social: `<circle cx="10" cy="12" r="3"></circle><circle cx="22" cy="12" r="3"></circle><path d="M4 24a6 6 0 0 1 12 0"></path><path d="M16 24a6 6 0 0 1 12 0"></path>`,
+  trust: `<circle cx="16" cy="16" r="11"></circle><path d="M16 9v7l5 3"></path>`,
+  privacy: `<path d="M16 4l10 4v7.8c0 5.6-4.1 9.2-10 12.2-5.9-3-10-6.6-10-12.2V8z"></path><circle cx="16" cy="15" r="2"></circle><path d="M16 17v3"></path>`,
+  quantum: `<circle cx="16" cy="16" r="3"></circle><circle cx="16" cy="6.5" r="1.4"></circle><circle cx="24.2" cy="11.2" r="1.4"></circle><circle cx="24.2" cy="20.8" r="1.4"></circle><circle cx="16" cy="25.5" r="1.4"></circle><circle cx="7.8" cy="20.8" r="1.4"></circle><circle cx="7.8" cy="11.2" r="1.4"></circle><path d="M16 16L16 6.5M16 16l8.2-4.8M16 16l8.2 4.8M16 16v9.5M16 16l-8.2 4.8M16 16l-8.2-4.8"></path>`,
+  openid: `<path d="M16 6a7 7 0 1 0 0 14"></path><circle cx="16" cy="9" r="1.8"></circle><path d="M16 11.5v8.5"></path><path d="M10 24h12"></path>`,
+  tee: `<rect x="6" y="6" width="20" height="20" rx="4"></rect><rect x="11" y="11" width="10" height="10" rx="2"></rect><path d="M16 2v4M16 26v4M2 16h4M26 16h4M6 6l-3-3M26 6l3-3M6 26l-3 3M26 26l3 3"></path>`,
+  antiFraud: `<path d="M5 7h22"></path><path d="M7 7l3 18h12l3-18"></path><path d="M12 12l8 8"></path><path d="M20 12l-8 8"></path>`,
+  integrate: `<path d="M10 16h12"></path><path d="M16 10v12"></path><rect x="4" y="4" width="8" height="8" rx="2"></rect><rect x="20" y="4" width="8" height="8" rx="2"></rect><rect x="4" y="20" width="8" height="8" rx="2"></rect><rect x="20" y="20" width="8" height="8" rx="2"></rect>`,
+  api: `<path d="M7 9h18"></path><path d="M7 16h18"></path><path d="M7 23h18"></path><circle cx="9" cy="9" r="1.2"></circle><circle cx="9" cy="16" r="1.2"></circle><circle cx="9" cy="23" r="1.2"></circle>`,
+  stack: `<rect x="6" y="6" width="20" height="6" rx="2"></rect><rect x="6" y="13" width="20" height="6" rx="2"></rect><rect x="6" y="20" width="20" height="6" rx="2"></rect>`,
+};
+
+const iconMarkup = icons[icon] ?? icons.shield;
+---
+
+<article class={`icon-card icon-card--${variant}`}>
+  <div class="icon-badge" aria-hidden="true">
+    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={iconMarkup}></svg>
+  </div>
+  <h3>{title}</h3>
+  <p>{text}</p>
+</article>
