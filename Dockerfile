@@ -10,7 +10,13 @@ COPY . .
 RUN npm run build
 
 FROM nginx:1.27-alpine AS runner
+ENV BRAND_NAME=veriq
+ENV BRAND_LOGO=/brand/Logo_veriq.png
+ENV BRAND_LOGO_FILE=Logo_veriq.png
+
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY docker/30-runtime-config.sh /docker-entrypoint.d/30-runtime-config.sh
+RUN chmod +x /docker-entrypoint.d/30-runtime-config.sh
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 80
