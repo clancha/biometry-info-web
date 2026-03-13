@@ -8,8 +8,8 @@ export function getStaticPaths() {
 }
 
 const lang = Astro.params.lang === "en" ? "en" : "es";
-const defaultBrandName = (import.meta.env.PUBLIC_BRAND_NAME || "veriq").trim() || "veriq";
-const defaultBrandLogo = (import.meta.env.PUBLIC_BRAND_LOGO || "/brand/Logo_veriq.png").trim() || "/brand/Logo_veriq.png";
+const defaultBrandName = "veriq";
+const defaultBrandLogo = "/brand/Logo_veriq.png";
 
 const copy = {
   en: {

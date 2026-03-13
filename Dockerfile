@@ -10,7 +10,7 @@ COPY . .
 RUN npm run build
 
 FROM nginx:1.27-alpine AS runner
-ENV BRAND_NAME=veriq
+ENV BRAND_PRESET=veriq
 
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY docker/30-runtime-config.sh /docker-entrypoint.d/30-runtime-config.sh
