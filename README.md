@@ -22,7 +22,6 @@ docker build -t biometry-info-web .
 ## 2) Ejecutar caso por defecto
 Usa los defaults del contenedor:
 - `BRAND_NAME=veriq`
-- `BRAND_LOGO_FILE=Logo_veriq.png`
 
 ```bash
 docker run --rm -p 8080:80 biometry-info-web
@@ -69,6 +68,24 @@ docker run --rm -p 8080:80 \
   biometry-info-web
 ```
 
+## 4.1) Solo cambiar nombre (auto logo por convención)
+Si no pasas logo, el contenedor intenta usar `Logo_<BRAND_NAME>.png` dentro de `/brand`.
+
+Ejemplo:
+```bash
+docker run --rm -p 8080:80 \
+  -e BRAND_NAME="humyx" \
+  biometry-info-web
+```
+
+Buscará `Logo_humyx.png`. Si no existe, usará `Logo_veriq.png`.
+
+## 4.2) Usar `BRAND_LOGO` (opcional)
+`BRAND_LOGO` acepta:
+- Ruta absoluta web: `/brand/Logo_humyx.png`
+- URL remota: `https://...`
+- Nombre de archivo: `Logo_humyx.png` (se resuelve en `/brand`)
+
 ## 5) Añadir nuevos logos y recompilar
 Si metes nuevos logos, tienen que ir en `public/brand/` para que entren en la imagen.
 
@@ -87,7 +104,15 @@ docker run --rm -p 8080:80 \
 
 ## 6) Fallbacks
 - Si `BRAND_LOGO_FILE` no existe en `/brand`, se usa `Logo_veriq.png`.
+- Si no pasas logo, intenta `Logo_<BRAND_NAME>.png` y, si no existe, usa `Logo_veriq.png`.
 - Si no pasas `BRAND_NAME`, se usa `veriq`.
+
+## 8) Debug rápido
+Ver qué eligió realmente el contenedor:
+
+```bash
+docker logs <container_id> | rg "^\[brand\]"
+```
 
 ## 7) URL de prueba
 Una vez arrancado:
