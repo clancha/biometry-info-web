@@ -1,0 +1,1342 @@
+---
+import SectionHeader from "../../components/SectionHeader.astro";
+import IconCard from "../../components/IconCard.astro";
+import StepCard from "../../components/StepCard.astro";
+
+export function getStaticPaths() {
+  const presets = ["veriq", "humanlayer", "humyx", "zeryon"];
+  const langs = ["es", "en"];
+  return presets.flatMap((preset) => langs.map((lang) => ({ params: { preset, lang } })));
+}
+
+const lang = Astro.params.lang === "en" ? "en" : "es";
+const presetParam = typeof Astro.params.preset === "string" ? Astro.params.preset.toLowerCase() : "veriq";
+const presetConfig = {
+  veriq: { brandName: "veriq", brandLogo: "/brand/Logo_veriq.png" },
+  humanlayer: { brandName: "humanlayer", brandLogo: "/brand/Logo_humanlayer.png" },
+  humyx: { brandName: "humyx", brandLogo: "/brand/Logo_humyx.png" },
+  zeryon: { brandName: "zeryon", brandLogo: "/brand/Logo_zeryon.png" },
+} as const;
+const preset = presetParam in presetConfig ? (presetParam as keyof typeof presetConfig) : "veriq";
+const defaultBrandName = presetConfig[preset].brandName;
+const defaultBrandLogo = presetConfig[preset].brandLogo;
+
+const copy = {
+  en: {
+    metaTitle: `${defaultBrandName} | Prove Identity. Prove Humanity.`,
+    metaDescription:
+      "Biometric proof of identity and humanity. Stop bots, fraud and impersonation with a clean API-first authentication layer.",
+    brand: defaultBrandName,
+    navAria: "Primary navigation",
+    nav: {
+      solution: "Solution",
+      howItWorks: "How it works",
+      developers: "Developers",
+      demo: "Book demo",
+      language: "Language",
+    },
+    hero: {
+      eyebrow: "Biometric proof platform",
+      title: "Prove identity. Prove humanity.",
+      subtitle: "Biometric authentication that helps stop bots, fraud and impersonation.",
+      primaryCta: "Book demo",
+      secondaryCta: "See how it works",
+      pills: ["Post-quantum crypto", "OpenID compatible", "Runs in TEE"],
+    },
+    sections: {
+      problem: {
+        eyebrow: "The problem",
+        title: "Digital actions can be faked in seconds.",
+        subtitle:
+          "Trust breaks when you cannot tell real users from automated or impersonated actors.",
+      },
+      solution: {
+        eyebrow: "The solution",
+        title: "One layer for identity and humanity.",
+        subtitle:
+          "Simple, visual and secure authentication flows for high-trust digital products.",
+      },
+      howItWorks: {
+        eyebrow: "How it works",
+        title: "Proof in 3 simple steps.",
+        subtitle: "Clear user flow. Clear trust signal.",
+      },
+      useCases: {
+        eyebrow: "Use cases",
+        title: "Built for trust-critical sectors.",
+        subtitle: "Where user authenticity has direct product and business impact.",
+      },
+      whyUs: {
+        eyebrow: "Why us",
+        title: "Security that stays practical.",
+        subtitle: "Post-quantum, OpenID-compatible and TEE-backed by design.",
+      },
+      developers: {
+        eyebrow: "For developers",
+        title: "Developer-ready integration.",
+        subtitle:
+          "OpenID-compatible flows, TEE runtime and post-quantum template protection.",
+      },
+      finalCta: {
+        eyebrow: "Final CTA",
+        title: "Build trusted digital interactions.",
+        subtitle: "Add biometric proof of identity and humanity to your product.",
+        button: "Request a demo",
+      },
+    },
+    codeLabel: "Example",
+    footer: {
+      brand: defaultBrandName,
+      text: "Proof of identity and humanity for modern digital products.",
+    },
+    problemItems: [
+      {
+        icon: "bot",
+        title: "Bots",
+        text: "Automated traffic mimics real users at scale.",
+      },
+      {
+        icon: "fake",
+        title: "Fake accounts",
+        text: "Synthetic profiles bypass basic verification.",
+      },
+      {
+        icon: "takeover",
+        title: "Account takeovers",
+        text: "Stolen credentials unlock trusted accounts.",
+      },
+      {
+        icon: "fraud",
+        title: "Identity fraud",
+        text: "Impersonation drives financial and trust loss.",
+      },
+    ],
+    solutionItems: [
+      {
+        icon: "user",
+        title: "Verify real users",
+        text: "Confirm that a real person is behind each action.",
+      },
+      {
+        icon: "shield",
+        title: "Stop automated abuse",
+        text: "Block bots, replay attacks and spoofing attempts.",
+      },
+      {
+        icon: "biometric",
+        title: "Add secure biometrics",
+        text: "Use biometric auth with liveness in one flow.",
+      },
+    ],
+    steps: [
+      {
+        title: "User starts action",
+        text: "A login, transfer, signup or sensitive operation begins.",
+      },
+      {
+        title: "Biometric check runs",
+        text: "Identity and liveness are verified in real time.",
+      },
+      {
+        title: "Proof is returned",
+        text: "Your platform receives proof of identity and humanity.",
+      },
+    ],
+    useCases: [
+      {
+        icon: "ticket",
+        title: "Ticketing",
+        text: "Protect access and reduce resale abuse.",
+      },
+      {
+        icon: "market",
+        title: "Marketplaces",
+        text: "Prevent fake sellers and fraudulent activity.",
+      },
+      {
+        icon: "wallet",
+        title: "Digital wallets",
+        text: "Secure account access and sensitive transactions.",
+      },
+      {
+        icon: "bank",
+        title: "Banking",
+        text: "Strengthen onboarding and account recovery.",
+      },
+      {
+        icon: "social",
+        title: "Social platforms",
+        text: "Limit bots and fake engagement.",
+      },
+      {
+        icon: "trust",
+        title: "High-trust apps",
+        text: "Build confidence in every user action.",
+      },
+    ],
+    whyUs: [
+      {
+        icon: "privacy",
+        title: "Privacy-preserving",
+        text: "Security without exposing unnecessary user data.",
+      },
+      {
+        icon: "quantum",
+        title: "Post-quantum protection",
+        text: "Biometric templates protected with post-quantum cryptography.",
+      },
+      {
+        icon: "openid",
+        title: "OpenID-compatible",
+        text: "Aligned with OpenID/OIDC identity schemes.",
+      },
+      {
+        icon: "tee",
+        title: "Trusted Execution Environment",
+        text: "Verification workloads run inside TEE-protected runtime.",
+      },
+      {
+        icon: "antiFraud",
+        title: "Anti-bot and anti-fraud",
+        text: "Reduce automated abuse and impersonation risk.",
+      },
+      {
+        icon: "api",
+        title: "Modern API / SDK approach",
+        text: "Composable integration across apps and services.",
+      },
+    ],
+    devStack: [
+      "iOS SDK",
+      "Android SDK",
+      "Web integration",
+      "OpenID / OIDC compatible",
+      "API-first",
+      "TEE-ready deployment",
+    ],
+  },
+  es: {
+    metaTitle: `${defaultBrandName} | Demuestra identidad. Demuestra humanidad.`,
+    metaDescription:
+      "Prueba biométrica de identidad y humanidad. Detén bots, fraude y suplantación con una capa de autenticación API-first.",
+    brand: defaultBrandName,
+    navAria: "Navegación principal",
+    nav: {
+      solution: "Solución",
+      howItWorks: "Cómo funciona",
+      developers: "Desarrolladores",
+      demo: "Reservar demo",
+      language: "Idioma",
+    },
+    hero: {
+      eyebrow: "Plataforma de prueba biométrica",
+      title: "Demuestra identidad. Demuestra humanidad.",
+      subtitle:
+        "Autenticación biométrica que ayuda a frenar bots, fraude y suplantación.",
+      primaryCta: "Reservar demo",
+      secondaryCta: "Ver cómo funciona",
+      pills: ["Cripto post-cuántica", "Compatible con OpenID", "Se ejecuta en TEE"],
+    },
+    sections: {
+      problem: {
+        eyebrow: "El problema",
+        title: "Las acciones digitales pueden falsificarse en segundos.",
+        subtitle:
+          "La confianza se rompe cuando no puedes distinguir usuarios reales de actores automatizados o suplantados.",
+      },
+      solution: {
+        eyebrow: "La solución",
+        title: "Una sola capa para identidad y humanidad.",
+        subtitle:
+          "Flujos de autenticación simples, visuales y seguros para productos digitales de alta confianza.",
+      },
+      howItWorks: {
+        eyebrow: "Cómo funciona",
+        title: "Prueba en 3 pasos simples.",
+        subtitle: "Flujo claro para el usuario. Señal clara de confianza.",
+      },
+      useCases: {
+        eyebrow: "Casos de uso",
+        title: "Diseñado para sectores críticos en confianza.",
+        subtitle:
+          "Donde la autenticidad del usuario impacta directamente al producto y al negocio.",
+      },
+      whyUs: {
+        eyebrow: "Por qué nosotros",
+        title: "Seguridad práctica de verdad.",
+        subtitle: "Diseñado con enfoque post-cuántico, compatible con OpenID y respaldado por TEE.",
+      },
+      developers: {
+        eyebrow: "Para desarrolladores",
+        title: "Integración lista para desarrollo.",
+        subtitle:
+          "Flujos compatibles con OpenID, runtime en TEE y protección post-cuántica de plantillas biométricas.",
+      },
+      finalCta: {
+        eyebrow: "CTA final",
+        title: "Construye interacciones digitales confiables.",
+        subtitle: "Añade prueba biométrica de identidad y humanidad a tu producto.",
+        button: "Solicitar demo",
+      },
+    },
+    codeLabel: "Ejemplo",
+    footer: {
+      brand: defaultBrandName,
+      text: "Prueba de identidad y humanidad para productos digitales modernos.",
+    },
+    problemItems: [
+      {
+        icon: "bot",
+        title: "Bots",
+        text: "El tráfico automatizado imita usuarios reales a gran escala.",
+      },
+      {
+        icon: "fake",
+        title: "Cuentas falsas",
+        text: "Perfiles sintéticos superan verificaciones básicas.",
+      },
+      {
+        icon: "takeover",
+        title: "Secuestro de cuentas",
+        text: "Credenciales robadas desbloquean cuentas de confianza.",
+      },
+      {
+        icon: "fraud",
+        title: "Fraude de identidad",
+        text: "La suplantación causa pérdidas financieras y de confianza.",
+      },
+    ],
+    solutionItems: [
+      {
+        icon: "user",
+        title: "Verifica usuarios reales",
+        text: "Confirma que hay una persona real detrás de cada acción.",
+      },
+      {
+        icon: "shield",
+        title: "Detén abuso automatizado",
+        text: "Bloquea bots, ataques de replay e intentos de spoofing.",
+      },
+      {
+        icon: "biometric",
+        title: "Añade biometría segura",
+        text: "Usa autenticación biométrica con prueba de vida en un único flujo.",
+      },
+    ],
+    steps: [
+      {
+        title: "El usuario inicia una acción",
+        text: "Comienza un login, transferencia, registro u operación sensible.",
+      },
+      {
+        title: "Se ejecuta la validación biométrica",
+        text: "La identidad y la prueba de vida se verifican en tiempo real.",
+      },
+      {
+        title: "Se devuelve la prueba",
+        text: "Tu plataforma recibe prueba de identidad y humanidad.",
+      },
+    ],
+    useCases: [
+      {
+        icon: "ticket",
+        title: "Ticketing",
+        text: "Protege accesos y reduce la reventa abusiva.",
+      },
+      {
+        icon: "market",
+        title: "Marketplaces",
+        text: "Evita vendedores falsos y actividad fraudulenta.",
+      },
+      {
+        icon: "wallet",
+        title: "Billeteras digitales",
+        text: "Asegura el acceso a cuentas y transacciones sensibles.",
+      },
+      {
+        icon: "bank",
+        title: "Banca",
+        text: "Refuerza onboarding y recuperación de cuentas.",
+      },
+      {
+        icon: "social",
+        title: "Plataformas sociales",
+        text: "Limita bots e interacción falsa.",
+      },
+      {
+        icon: "trust",
+        title: "Apps de alta confianza",
+        text: "Construye confianza en cada acción del usuario.",
+      },
+    ],
+    whyUs: [
+      {
+        icon: "privacy",
+        title: "Privacidad por diseño",
+        text: "Seguridad sin exponer datos innecesarios del usuario.",
+      },
+      {
+        icon: "quantum",
+        title: "Protección post-cuántica",
+        text: "Plantillas biométricas protegidas con criptografía post-cuántica.",
+      },
+      {
+        icon: "openid",
+        title: "Compatible con OpenID",
+        text: "Alineado con esquemas de identidad OpenID/OIDC.",
+      },
+      {
+        icon: "tee",
+        title: "Trusted Execution Environment",
+        text: "Las verificaciones se ejecutan dentro de un runtime protegido por TEE.",
+      },
+      {
+        icon: "antiFraud",
+        title: "Anti-bot y anti-fraude",
+        text: "Reduce abuso automatizado y riesgo de suplantación.",
+      },
+      {
+        icon: "api",
+        title: "Enfoque moderno API / SDK",
+        text: "Integración componible entre apps y servicios.",
+      },
+    ],
+    devStack: [
+      "SDK para iOS",
+      "SDK para Android",
+      "Integración web",
+      "Compatible con OpenID / OIDC",
+      "API-first",
+      "Despliegue preparado para TEE",
+    ],
+  },
+};
+
+const t = copy[lang];
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{t.metaTitle}</title>
+    <meta name="description" content={t.metaDescription} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f4f8ff;
+        --surface: #ffffff;
+        --surface-soft: #f6f9ff;
+        --ink: #0b2a78;
+        --ink-strong: #081d57;
+        --muted: #4f6088;
+        --line: #c7d7f3;
+        --primary: #1b73ea;
+        --primary-deep: #0d2d8b;
+        --primary-glow: #2db4f8;
+        --primary-soft: #e8f0ff;
+        --radius-lg: 1.35rem;
+        --radius-md: 0.95rem;
+        --shadow: 0 20px 45px rgba(8, 35, 105, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
+        color: var(--ink-strong);
+        background:
+          radial-gradient(62rem 32rem at -6% -12%, rgba(45, 180, 248, 0.26) 0%, transparent 58%),
+          radial-gradient(58rem 30rem at 110% 0%, rgba(11, 42, 120, 0.2) 0%, transparent 52%),
+          linear-gradient(180deg, #eff5ff 0%, #f9fbff 40%, #f3f7ff 100%);
+      }
+
+      h1,
+      h2,
+      h3,
+      .brand-name,
+      .btn {
+        font-family: "Space Grotesk", "Avenir Next", sans-serif;
+        letter-spacing: -0.01em;
+      }
+
+      .container {
+        width: min(1120px, 92vw);
+        margin-inline: auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        backdrop-filter: blur(12px);
+        background: rgba(244, 248, 255, 0.84);
+        border-bottom: 1px solid #d4e1f7;
+      }
+
+      .header-wrap {
+        min-height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .brand-lockup {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .brand-emblem {
+        width: 46px;
+        height: 46px;
+        border-radius: 0.9rem;
+        border: 1px solid #cad9f5;
+        background: linear-gradient(145deg, #f6fbff 0%, #eef3ff 100%);
+        overflow: hidden;
+        box-shadow: 0 10px 20px rgba(21, 83, 177, 0.16);
+      }
+
+      .brand-emblem img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 26%;
+        transform: scale(1.22);
+      }
+
+      .brand-meta {
+        display: grid;
+        line-height: 1;
+        gap: 0.2rem;
+      }
+
+      .brand-name {
+        font-size: 1.12rem;
+        font-weight: 700;
+        color: var(--ink-strong);
+      }
+
+      .brand-tagline {
+        font-size: 0.71rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #5073b8;
+        font-weight: 600;
+      }
+
+      .header-nav {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+      }
+
+      .header-nav a {
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .header-nav a:not(.btn):hover {
+        color: var(--primary-deep);
+      }
+
+      .lang-switch {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        border-radius: 999px;
+        padding: 0.2rem;
+      }
+
+      .lang-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2rem;
+        height: 1.85rem;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        letter-spacing: 0.03em;
+      }
+
+      .lang-link.is-active {
+        background: linear-gradient(135deg, #dfe9ff 0%, #d4f2ff 100%);
+        color: #1a4f9e;
+      }
+
+      .section {
+        padding: clamp(4.5rem, 8vw, 7rem) 0;
+      }
+
+      .hero {
+        padding-top: clamp(4.6rem, 8vw, 7.2rem);
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.02fr 0.98fr;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .eyebrow {
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 700;
+        font-size: 0.77rem;
+        color: #1f56ad;
+      }
+
+      .hero h1 {
+        margin: 0.9rem 0 1rem;
+        font-size: clamp(2.1rem, 5.2vw, 4.1rem);
+        line-height: 1.03;
+        max-width: 11ch;
+        color: var(--ink-strong);
+      }
+
+      .hero-subtitle {
+        margin: 0;
+        max-width: 44ch;
+        color: var(--muted);
+        font-size: clamp(1rem, 1.8vw, 1.16rem);
+        line-height: 1.6;
+      }
+
+      .hero-actions {
+        margin-top: 1.8rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        border-radius: 0.85rem;
+        padding: 0.7rem 1rem;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 700;
+        border: 1px solid transparent;
+        transition: transform 0.22s ease, box-shadow 0.22s ease, background-color 0.2s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #226fe2 0%, #22aef6 100%);
+        color: #fff;
+        box-shadow: 0 10px 20px rgba(18, 96, 205, 0.35);
+      }
+
+      .btn-primary:hover {
+        box-shadow: 0 12px 24px rgba(18, 96, 205, 0.42);
+      }
+
+      .btn-secondary {
+        background: var(--surface);
+        color: var(--ink-strong);
+        border-color: var(--line);
+      }
+
+      .trust-pills {
+        margin-top: 1.35rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .pill {
+        border-radius: 999px;
+        border: 1px solid #cddcf3;
+        background: linear-gradient(150deg, #f8fbff 0%, #edf4ff 100%);
+        padding: 0.35rem 0.65rem;
+        font-size: 0.76rem;
+        color: #305a97;
+        font-weight: 700;
+      }
+
+      .hero-visual {
+        border: 1px solid #c1d5f4;
+        border-radius: 1.4rem;
+        background:
+          radial-gradient(circle at 20% 16%, rgba(34, 174, 246, 0.24) 0%, transparent 42%),
+          radial-gradient(circle at 84% 80%, rgba(17, 76, 170, 0.2) 0%, transparent 38%),
+          linear-gradient(150deg, #f8fbff 0%, #edf4ff 100%);
+        box-shadow: var(--shadow);
+        min-height: 410px;
+        display: grid;
+        place-items: center;
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+      }
+
+      .signal-ring {
+        position: absolute;
+        border-radius: 999px;
+        border: 1px dashed rgba(20, 95, 194, 0.3);
+        z-index: 0;
+      }
+
+      .signal-ring--one {
+        width: 230px;
+        height: 230px;
+        right: -80px;
+        top: -70px;
+      }
+
+      .signal-ring--two {
+        width: 190px;
+        height: 190px;
+        left: -62px;
+        bottom: -58px;
+      }
+
+      .proof-console {
+        width: min(430px, 92%);
+        border-radius: 1.15rem;
+        border: 1px solid #b5cdf0;
+        background: linear-gradient(180deg, #ffffff 0%, #f4f8ff 100%);
+        box-shadow: 0 14px 30px rgba(11, 53, 125, 0.16);
+        padding: 1rem;
+        display: grid;
+        gap: 0.8rem;
+        z-index: 1;
+      }
+
+      .console-label {
+        margin: 0;
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        font-weight: 700;
+        color: #4a6db2;
+        text-transform: uppercase;
+      }
+
+      .hero-logo-shell {
+        border-radius: 0.9rem;
+        border: 1px solid #ccdcf6;
+        background: #f1f1f1;
+        padding: 0.6rem;
+      }
+
+      .hero-logo {
+        width: 100%;
+        max-width: 290px;
+        display: block;
+        margin: 0 auto;
+      }
+
+      .status-list {
+        display: grid;
+        gap: 0.55rem;
+      }
+
+      .status-row {
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid #d2dff3;
+        border-radius: 0.75rem;
+        background: #fff;
+        padding: 0.45rem 0.62rem;
+        color: #2a4783;
+        font-size: 0.88rem;
+      }
+
+      .status-row strong {
+        color: #1b63d0;
+      }
+
+      .confidence {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.84rem;
+        font-weight: 600;
+        color: #3f5f9f;
+      }
+
+      .confidence strong {
+        color: #0f4aaf;
+      }
+
+      .confidence-bar {
+        width: 100%;
+        height: 0.53rem;
+        border-radius: 999px;
+        background: #d6e4fb;
+        overflow: hidden;
+      }
+
+      .confidence-bar span {
+        display: block;
+        width: 99.2%;
+        height: 100%;
+        background: linear-gradient(90deg, #1f70e6 0%, #2db4f8 100%);
+      }
+
+      .section-header {
+        display: grid;
+        gap: 0.65rem;
+        margin-bottom: 1.6rem;
+      }
+
+      .section-header h2 {
+        margin: 0;
+        max-width: 18ch;
+        font-size: clamp(1.6rem, 3.8vw, 2.8rem);
+        line-height: 1.12;
+      }
+
+      .section-header .subtitle {
+        margin: 0;
+        color: var(--muted);
+        max-width: 58ch;
+        line-height: 1.58;
+      }
+
+      .section-header.is-centered {
+        text-align: center;
+        justify-items: center;
+      }
+
+      .section-header.is-centered h2,
+      .section-header.is-centered .subtitle {
+        max-width: 28ch;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        background: var(--surface);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+        padding: 1.2rem;
+      }
+
+      .grid {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .grid-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .grid-5 {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .icon-card {
+        border: 1px solid var(--line);
+        background: var(--surface);
+        border-radius: var(--radius-md);
+        padding: 1rem;
+        display: grid;
+        gap: 0.8rem;
+        min-height: 170px;
+      }
+
+      .icon-card--soft {
+        background: linear-gradient(150deg, #f8fbff 0%, #eff5ff 100%);
+      }
+
+      .icon-card h3 {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      .icon-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.45;
+        font-size: 0.95rem;
+      }
+
+      .icon-badge {
+        width: 2.3rem;
+        height: 2.3rem;
+        border-radius: 0.75rem;
+        border: 1px solid #c5d6f2;
+        background: var(--primary-soft);
+        color: #2056aa;
+        display: grid;
+        place-items: center;
+      }
+
+      .icon-badge svg {
+        width: 1.35rem;
+        height: 1.35rem;
+      }
+
+      .soft-block {
+        background:
+          radial-gradient(circle at 88% 10%, rgba(47, 178, 248, 0.12) 0%, transparent 42%),
+          linear-gradient(160deg, #f9fbff 0%, #edf4ff 100%);
+        border-top: 1px solid #d6e2f6;
+        border-bottom: 1px solid #d6e2f6;
+      }
+
+      .steps-wrap {
+        padding: 1rem;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--line);
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.85rem;
+      }
+
+      .step-card {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: var(--surface);
+        padding: 1rem;
+        position: relative;
+      }
+
+      .step-index {
+        width: 1.8rem;
+        height: 1.8rem;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        border: 1px solid #c5d6f2;
+        background: var(--primary-soft);
+        color: #134f97;
+        font-size: 0.8rem;
+        font-weight: 800;
+      }
+
+      .step-card h3 {
+        margin: 0.8rem 0 0.4rem;
+        font-size: 1rem;
+      }
+
+      .step-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.45;
+        font-size: 0.94rem;
+      }
+
+      .why-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.8rem;
+      }
+
+      .dev-grid {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 1rem;
+        align-items: stretch;
+      }
+
+      .dev-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0.55rem;
+      }
+
+      .dev-list li {
+        border: 1px solid var(--line);
+        background: var(--surface-soft);
+        border-radius: 0.75rem;
+        padding: 0.62rem 0.72rem;
+        font-weight: 700;
+        font-size: 0.91rem;
+      }
+
+      .code-card {
+        border: 1px solid #b8cbed;
+        background: #0a2463;
+        color: #e7efff;
+        border-radius: var(--radius-md);
+        padding: 0.95rem;
+        font-size: 0.83rem;
+        overflow-x: auto;
+      }
+
+      .code-card code {
+        font-family: "SF Mono", "Menlo", "Consolas", monospace;
+        line-height: 1.5;
+      }
+
+      .final-cta {
+        background:
+          radial-gradient(circle at 100% 0, rgba(45, 180, 248, 0.2) 0%, transparent 42%),
+          radial-gradient(circle at 0 100%, rgba(18, 98, 207, 0.18) 0%, transparent 45%),
+          #ffffff;
+      }
+
+      .final-cta .section-header h2 {
+        max-width: 17ch;
+      }
+
+      .footer {
+        padding: 2rem 0 2.5rem;
+      }
+
+      .footer-wrap {
+        border-top: 1px solid var(--line);
+        padding-top: 1.2rem;
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .motion-in {
+        transform: none;
+        opacity: 1;
+      }
+
+      .stagger > * {
+        transform: none;
+        opacity: 1;
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .motion-in {
+          opacity: 0;
+          transform: translateY(14px);
+          animation: rise 0.7s ease forwards;
+          animation-delay: var(--delay, 0ms);
+        }
+
+        .stagger > * {
+          opacity: 0;
+          transform: translateY(12px);
+          animation: rise 0.6s ease forwards;
+          animation-delay: calc(var(--item, 0) * 90ms + 120ms);
+        }
+      }
+
+      @keyframes rise {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 1060px) {
+        .hero-grid,
+        .dev-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-visual {
+          min-height: 320px;
+        }
+
+        .grid-4 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .why-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 760px) {
+        .header-nav a:not(.btn):not(.lang-link) {
+          display: none;
+        }
+
+        .brand-tagline {
+          display: none;
+        }
+
+        .section {
+          padding: 4.1rem 0;
+        }
+
+        .hero {
+          padding-top: 3.6rem;
+        }
+
+        .hero h1 {
+          max-width: 14ch;
+        }
+
+        .steps,
+        .grid-3,
+        .grid-4,
+        .why-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .icon-card {
+          min-height: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-wrap">
+        <a href={`/${preset}/${lang}`} class="brand-lockup" aria-label={t.brand}>
+          <span class="brand-emblem" aria-hidden="true">
+            <img src={defaultBrandLogo} width="46" height="46" alt="" loading="eager" decoding="async" />
+          </span>
+          <span class="brand-meta">
+            <span class="brand-name">{t.brand}</span>
+            <span class="brand-tagline">{lang === "es" ? "Confianza biométrica" : "Biometric trust layer"}</span>
+          </span>
+        </a>
+        <nav class="header-nav" aria-label={t.navAria}>
+          <a href="#solution">{t.nav.solution}</a>
+          <a href="#how-it-works">{t.nav.howItWorks}</a>
+          <a href="#developers">{t.nav.developers}</a>
+          <div class="lang-switch" aria-label={t.nav.language}>
+            <a href={`/${preset}/es`} class={`lang-link ${lang === "es" ? "is-active" : ""}`} aria-current={lang === "es" ? "page" : "false"}>ES</a>
+            <a href={`/${preset}/en`} class={`lang-link ${lang === "en" ? "is-active" : ""}`} aria-current={lang === "en" ? "page" : "false"}>EN</a>
+          </div>
+          <a href="#demo" class="btn btn-secondary">{t.nav.demo}</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero section">
+        <div class="container hero-grid">
+          <div class="motion-in" style="--delay: 40ms;">
+            <p class="eyebrow">{t.hero.eyebrow}</p>
+            <h1>{t.hero.title}</h1>
+            <p class="hero-subtitle">{t.hero.subtitle}</p>
+            <div class="hero-actions">
+              <a href="#demo" class="btn btn-primary">{t.hero.primaryCta}</a>
+              <a href="#how-it-works" class="btn btn-secondary">{t.hero.secondaryCta}</a>
+            </div>
+            <div class="trust-pills">
+              {t.hero.pills.map((pill) => <span class="pill">{pill}</span>)}
+            </div>
+          </div>
+
+          <div class="hero-visual motion-in" style="--delay: 160ms;" aria-hidden="true">
+            <span class="signal-ring signal-ring--one"></span>
+            <span class="signal-ring signal-ring--two"></span>
+            <article class="proof-console">
+              <p class="console-label">{lang === "es" ? `${defaultBrandName} motor de confianza` : `${defaultBrandName} trust engine`}</p>
+              <div class="hero-logo-shell">
+                <img src={defaultBrandLogo} width="290" height="290" class="hero-logo" alt="" loading="eager" decoding="async" />
+              </div>
+              <div class="status-list">
+                <div class="status-row">
+                  <span>{lang === "es" ? "Identidad" : "Identity"}</span>
+                  <strong>{lang === "es" ? "Verificada" : "Verified"}</strong>
+                </div>
+                <div class="status-row">
+                  <span>{lang === "es" ? "Prueba de vida" : "Liveness"}</span>
+                  <strong>{lang === "es" ? "Activa" : "Active"}</strong>
+                </div>
+                <div class="status-row">
+                  <span>{lang === "es" ? "Riesgo de bot" : "Bot risk"}</span>
+                  <strong>{lang === "es" ? "Bloqueado" : "Blocked"}</strong>
+                </div>
+              </div>
+              <div class="confidence">
+                <span>{lang === "es" ? "Nivel de confianza" : "Trust score"}</span>
+                <strong>99.2%</strong>
+              </div>
+              <div class="confidence-bar">
+                <span></span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="problem">
+        <div class="container">
+          <SectionHeader
+            eyebrow={t.sections.problem.eyebrow}
+            title={t.sections.problem.title}
+            subtitle={t.sections.problem.subtitle}
+          />
+
+          <div class="grid grid-4 stagger">
+            {
+              t.problemItems.map((item, index) => (
+                <div style={`--item:${index};`}>
+                  <IconCard icon={item.icon} title={item.title} text={item.text} />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft-block" id="solution">
+        <div class="container">
+          <SectionHeader
+            eyebrow={t.sections.solution.eyebrow}
+            title={t.sections.solution.title}
+            subtitle={t.sections.solution.subtitle}
+          />
+
+          <div class="grid grid-3 stagger">
+            {
+              t.solutionItems.map((item, index) => (
+                <div style={`--item:${index};`}>
+                  <IconCard icon={item.icon} title={item.title} text={item.text} variant="soft" />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="how-it-works">
+        <div class="container">
+          <SectionHeader
+            eyebrow={t.sections.howItWorks.eyebrow}
+            title={t.sections.howItWorks.title}
+            subtitle={t.sections.howItWorks.subtitle}
+            align="center"
+          />
+
+          <div class="steps-wrap">
+            <div class="steps stagger">
+              {
+                t.steps.map((step, index) => (
+                  <div style={`--item:${index};`}>
+                    <StepCard step={index + 1} title={step.title} text={step.text} />
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft-block" id="use-cases">
+        <div class="container">
+          <SectionHeader
+            eyebrow={t.sections.useCases.eyebrow}
+            title={t.sections.useCases.title}
+            subtitle={t.sections.useCases.subtitle}
+          />
+
+          <div class="grid grid-3 stagger">
+            {
+              t.useCases.map((item, index) => (
+                <div style={`--item:${index};`}>
+                  <IconCard icon={item.icon} title={item.title} text={item.text} />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="why-us">
+        <div class="container">
+          <SectionHeader
+            eyebrow={t.sections.whyUs.eyebrow}
+            title={t.sections.whyUs.title}
+            subtitle={t.sections.whyUs.subtitle}
+          />
+
+          <div class="why-grid stagger">
+            {
+              t.whyUs.map((item, index) => (
+                <div style={`--item:${index};`}>
+                  <IconCard icon={item.icon} title={item.title} text={item.text} variant="soft" />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft-block" id="developers">
+        <div class="container dev-grid">
+          <article class="panel motion-in" style="--delay: 20ms;">
+            <SectionHeader
+              eyebrow={t.sections.developers.eyebrow}
+              title={t.sections.developers.title}
+              subtitle={t.sections.developers.subtitle}
+            />
+            <ul class="dev-list">
+              {t.devStack.map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
+
+          <article class="panel motion-in" style="--delay: 120ms;">
+            <p class="eyebrow">{t.codeLabel}</p>
+            <div class="code-card">
+              <code>
+                POST /v1/verify<br />
+                &#123;<br />
+                &nbsp;&nbsp;"user_id": "usr_892",<br />
+                &nbsp;&nbsp;"check": ["face_match", "liveness"],<br />
+                &nbsp;&nbsp;"openid_flow": true<br />
+                &#125;<br /><br />
+                =&gt; &#123; "proof": "identity_humanity_verified", "runtime": "tee" &#125;
+              </code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="demo">
+        <div class="container">
+          <article class="panel final-cta motion-in" style="--delay: 40ms;">
+            <SectionHeader
+              eyebrow={t.sections.finalCta.eyebrow}
+              title={t.sections.finalCta.title}
+              subtitle={t.sections.finalCta.subtitle}
+            />
+            <a href="mailto:hello@veriq.com" class="btn btn-primary">{t.sections.finalCta.button}</a>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-wrap">
+        <span>{t.footer.brand}</span>
+        <span>{t.footer.text}</span>
+      </div>
+    </footer>
+  </body>
+</html>

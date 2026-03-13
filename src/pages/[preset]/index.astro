@@ -1,0 +1,27 @@
+---
+export function getStaticPaths() {
+  return [
+    { params: { preset: "veriq" } },
+    { params: { preset: "humanlayer" } },
+    { params: { preset: "humyx" } },
+    { params: { preset: "zeryon" } },
+  ];
+}
+
+const rawPreset = typeof Astro.params.preset === "string" ? Astro.params.preset.toLowerCase() : "veriq";
+const allowed = new Set(["veriq", "humanlayer", "humyx", "zeryon"]);
+const preset = allowed.has(rawPreset) ? rawPreset : "veriq";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{preset}</title>
+    <meta http-equiv="refresh" content={`0;url=/${preset}/es`} />
+  </head>
+  <body>
+    <p>Redirigiendo a <a href={`/${preset}/es`}>{preset}</a>...</p>
+  </body>
+</html>
